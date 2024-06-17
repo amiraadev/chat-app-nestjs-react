@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://postgres:root@localhost:5433/chatapp"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -23,7 +23,7 @@ model User {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   chatrooms     Chatroom[] @relation("ChatroomUser")
-  messages      Message[]
+  messages      Message[]  
 }
 
 model Chatroom {
@@ -32,7 +32,7 @@ model Chatroom {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   users     User[]    @relation("ChatroomUser")
-  messages  Message[]
+  messages  Message[] 
 }
 
 model Message {
