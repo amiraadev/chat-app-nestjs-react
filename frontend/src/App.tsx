@@ -1,12 +1,13 @@
 /** @format */
 
 import "./App.css";
-import { Card } from "@mantine/core";
+import { Card, Text } from "@mantine/core";
 
 function App() {
 	return (
 		<>
-			<Card>
+			<Card shadow="lg">
+        <Text >eeeee</Text>
 				<h1>hello everyone</h1>
 			</Card>
 		</>
