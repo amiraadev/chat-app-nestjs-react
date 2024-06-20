@@ -22,7 +22,7 @@ export class RegisterDto {
     @IsEmail({},{message:'Email must be valid.'})
     email: string;
 }
-
+@InputType()
 export class LoginDto {
     @Field()
     @IsNotEmpty({message:'Password is required.'})
