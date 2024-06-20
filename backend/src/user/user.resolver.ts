@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './user.type';
 import { Request } from 'express';
@@ -6,7 +6,7 @@ import { UseGuards } from '@nestjs/common';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
-import { v4 as uuidv4 } from 'path';
+import { v4 as uuidv4 } from 'uuid';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 
 @Resolver()
