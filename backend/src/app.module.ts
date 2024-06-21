@@ -8,7 +8,18 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import { TokenService } from './token/token.service';
 
+const pubsub = new RedisPubSub({
+  connection: {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379', 10),
+    retryStrategy: (times) => {
+      return Math.min(times * 50, 2000);
+    },
+  },
+});
 @Module({
   imports: [
     AuthModule,
@@ -17,21 +28,24 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule, AppModule],
       inject: [ConfigService],
       driver: ApolloDriver,
-      useFactory: async (
-        configService: ConfigService
-      ) => {
+      useFactory: async (configService: ConfigService) => {
         return {
-          playground:true,
-          autoSchemaFile:join(process.cwd(),'src/schema.gql'),
-          sortSchemas:true,
-        }
+          installSubscriptionHandlers:true,
+          playground: true,
+          autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+          sortSchemas: true,
+          subscriptions: {
+            'graphql-ws': true,
+            'subscriptions-transport-ws': true,
+          },
+        };
       },
     }),
     ConfigModule.forRoot({
-      isGlobal:true
-    })
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TokenService],
 })
 export class AppModule {}
