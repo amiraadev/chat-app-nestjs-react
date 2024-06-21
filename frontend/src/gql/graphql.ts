@@ -77,7 +77,7 @@ export type User = {
   avatarUrl?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['String']['output'];
-  fullName: Scalars['String']['output'];
+  fullname: Scalars['String']['output'];
   id: Scalars['Float']['output'];
   password?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];

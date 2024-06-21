@@ -21,12 +21,14 @@
     "graphql": "^16.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "subscriptions-transport-ws": "^0.11.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.3.0",
     "@parcel/watcher": "^2.4.1",
+    "@types/apollo-upload-client": "^18.0.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
