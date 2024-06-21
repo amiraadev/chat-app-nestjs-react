@@ -2,19 +2,23 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import "@mantine/core/styles.css";
-
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { ApolloProvider } from "@apollo/client";
-import { client } from "./apolloClient";
+import "@mantine/core/styles.css";
 
+import App from "./App.tsx";
+import "./index.css";
+import { client } from "./apolloClient";
+import Home from "./pages/Home.tsx";
+
+const router = createBrowserRouter([{ path: "/", element: <Home /> }]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>
 			<MantineProvider>
-				<App />
+				<RouterProvider router={router}/>
+					<App />
 			</MantineProvider>
 		</ApolloProvider>
 	</React.StrictMode>

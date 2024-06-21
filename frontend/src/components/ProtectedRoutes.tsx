@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useUserStore } from "../store/userStore";
 import { useGeneralStore } from "../store/generalStore";
 
-const ProtecteRoutes = ({ children }: { children: React.ReactElement }) => {
+const ProtectedRoutes = ({ children }: { children: React.ReactElement }) => {
 	const userId = useUserStore((state) => state.id);
 	const toggleLoginModal = useGeneralStore((state) => state.toggleLoginModal);
 
@@ -20,4 +20,4 @@ const ProtecteRoutes = ({ children }: { children: React.ReactElement }) => {
 	return <>Protected</>;
 };
 
-export default ProtecteRoutes;
+export default ProtectedRoutes;
