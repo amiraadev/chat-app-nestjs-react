@@ -96,16 +96,19 @@ function Sidebar() {
 			onClick={() => setActive(index)}
 		/>
 	));
-	const userId = useUserStore((state:any) => state.id);
-	const user = useUserStore((state:any) => state);
-	const setUser = useUserStore((state:any) => state.setUser);
+	const userId = useUserStore((state: any) => state.id);
+	const user = useUserStore((state: any) => state);
+	const setUser = useUserStore((state: any) => state.setUser);
 
-	const toggleLoginModal = useGeneralStore((state:any) => state.toggleLoginModal);
-	// const [logoutUser, { loading, error }] = useMutation(LOGOUT_USER, {
-	// 	onCompleted: () => {
-	// 		toggleLoginModal();
-	// 	},
-	// });
+	const toggleLoginModal = useGeneralStore(
+		(state: any) => state.toggleLoginModal
+	);
+
+	const [logoutUser, { loading, error }] = useMutation(LOGOUT_USER, {
+		onCompleted: () => {
+			toggleLoginModal();
+		},
+	});
 
 	const handleLogout = async () => {
 		await logoutUser();
