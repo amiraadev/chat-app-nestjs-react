@@ -53,6 +53,12 @@ const pubsub = new RedisPubSub({
               throw new Error('Invalid token');
             }
             return { user };
+          },
+          context:({req,res,connection})=>{
+            if(connection){
+              return {req,res,user:connection.context.user,pubsub}
+            }
+            return{ req,res}
           }
         };
       },
