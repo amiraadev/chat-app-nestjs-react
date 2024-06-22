@@ -4,7 +4,7 @@
 
 type User {
   id: Float!
-  fullName: String!
+  fullname: String!
   email: String!
   avatarUrl: String
   password: String

@@ -9,7 +9,7 @@ export const REGISTER_USER = gql`
   ){
     register(
         registerInput:{
-            fullName: $fullname,
+            fullname: $fullname,
             email: $email,
             password: $password,
             confirmPassword: $confirmPassword,
