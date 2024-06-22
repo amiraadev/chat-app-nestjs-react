@@ -8,12 +8,12 @@ MainLayout;
 const Home = () => {
 	return (
 		<MainLayout>
-			<ProtectedRoutes>
+			{/* <ProtectedRoutes> */}
 				<>
-					<Sidebar />
+					<Sidebar /> 
 					HOME PAGE
 				</>
-			</ProtectedRoutes>
+			{/* </ProtectedRoutes> */}
 		</MainLayout>
 	);
 };
