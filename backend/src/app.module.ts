@@ -11,6 +11,8 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { TokenService } from './token/token.service';
+import { ChatroomService } from './chatroom/chatroom.service';
+import { ChatroomResolver } from './chatroom/chatroom.resolver';
 
 const pubsub = new RedisPubSub({
   connection: {
@@ -73,6 +75,6 @@ const pubsub = new RedisPubSub({
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, TokenService],
+  providers: [AppService, TokenService, ChatroomService, ChatroomResolver],
 })
 export class AppModule {}
