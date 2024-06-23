@@ -80,7 +80,7 @@ export type User = {
   fullname: Scalars['String']['output'];
   id: Scalars['Float']['output'];
   password?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt?: Scalars['DateTime']['output'];
 };
 
 export type LoginUserMutationVariables = Exact<{

@@ -21,7 +21,7 @@ export class User {
     @Field({nullable: true})
     createdAt?:Date;
     
-    @Field()
+    @Field({nullable: true})
     updatedAt?:Date;
 
 }

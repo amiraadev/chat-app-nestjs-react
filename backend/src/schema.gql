@@ -9,7 +9,7 @@ type User {
   avatarUrl: String
   password: String
   createdAt: DateTime
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 """

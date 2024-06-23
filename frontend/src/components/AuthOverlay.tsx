@@ -10,7 +10,7 @@ import {
 	Text,
 	TextInput,
 } from "@mantine/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGeneralStore } from "../store/generalStore";
 import { useForm } from "@mantine/form";
 import { useUserStore } from "../store/userStore";
@@ -19,10 +19,17 @@ import { useMutation } from "@apollo/client";
 import { LoginUserMutation, RegisterUserMutation } from "../gql/graphql";
 import { REGISTER_USER } from "../graphql/mutations/Register";
 import { LOGIN_USER } from "../graphql/mutations/Login";
+
 function AuthOverlay() {
 	const isLoginModalOpen = useGeneralStore((state) => state.isLoginModalOpen);
 	const toggleLoginModal = useGeneralStore((state) => state.toggleLoginModal);
 	const [isRegister, setIsRegister] = useState(true);
+
+	useEffect(() => {
+		console.log(isLoginModalOpen);
+	}, [isLoginModalOpen]);
+
+	// const {} = useGeneralStore()
 	const toggleForm = () => {
 		setIsRegister(!isRegister);
 	};
@@ -172,6 +179,7 @@ function AuthOverlay() {
 		const setIsLoginOpen = useGeneralStore((state) => state.toggleLoginModal);
 		const [errors, setErrors] = React.useState<GraphQLErrorExtensions>({});
 		const [invalidCredentials, setInvalidCredentials] = React.useState("");
+		
 		const form = useForm({
 			initialValues: {
 				email: "",
@@ -204,6 +212,7 @@ function AuthOverlay() {
 							fullname: data?.login.user.fullname,
 							avatarUrl: data?.login.user.avatarUrl,
 						});
+
 						setIsLoginOpen();
 					}
 				},
@@ -273,9 +282,7 @@ function AuthOverlay() {
 		);
 	};
 	return (
-		// <Modal centered opened={isLoginModalOpen} onClose={toggleLoginModal}>
-		<Modal centered opened={true} onClose={toggleLoginModal}>
-
+		<Modal centered opened={isLoginModalOpen} onClose={toggleLoginModal}>
 			{isRegister ? <Register /> : <Login />}
 		</Modal>
 	);

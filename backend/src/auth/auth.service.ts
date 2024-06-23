@@ -75,6 +75,7 @@ export class AuthService {
       where: { email: loginDto.email },
     });
     if (user && (await bcrypt.compare(loginDto.password, user.password))) {
+      
       return user;
     }
     return null;
@@ -102,7 +103,7 @@ export class AuthService {
 
   async login(loginDto: LoginDto, response: Response) {
     const user = await this.validateUser(loginDto);
-    if (user!) {
+    if (!user) {
       throw new BadRequestException({
         invalidCredentials: 'Invalid credentials',
       });
