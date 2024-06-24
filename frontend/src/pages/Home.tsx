@@ -6,18 +6,32 @@ import Sidebar from "../components/Sidebar";
 import ProtectedRoutes from "../components/ProtectedRoutes";
 import AuthOverlay from "../components/AuthOverlay";
 import ProfileSettings from "../components/ProfileSettings";
+import RoomList from "../components/RoomList";
+import { Flex } from "@mantine/core";
+import AddChatroom from "../components/AddChatroom";
 MainLayout;
 const Home = () => {
 	return (
 		<MainLayout>
-			{/* <ProtectedRoutes> */}
-				<>
-					<Sidebar /> 
-					<ProfileSettings /> 
-					<AuthOverlay /> 
-					HOME PAGE
-				</>
-			{/* </ProtectedRoutes> */}
+			<>
+				<ProfileSettings />
+				<AuthOverlay />
+				<Sidebar />
+				{/* <AddChatroom />
+          <Flex direction={{ base: "column", md: "row" }}>
+            <RoomList />
+            <JoinRoomOrChatwindow />
+          </Flex> */}
+				<ProtectedRoutes>
+					<>
+						<AddChatroom />
+						<Flex direction={{ base: "column", sm: "row" }} w={"100vw"}>
+							<RoomList />
+						</Flex>
+					</>
+				</ProtectedRoutes>
+				HOME PAGE
+			</>
 		</MainLayout>
 	);
 };
