@@ -1,166 +1,169 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { createWriteStream } from 'fs';
-import { PrismaService } from 'src/prisma.service';
-
-@Injectable()
-export class ChatroomService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly configService: ConfigService,
-  ) {}
-
-  async getChatroom(id: string) {
-    return this.prisma.chatroom.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-    });
-  }
-
-  async createChatroom(name: string, sub: number) {
-    const existingChatroom = await this.prisma.chatroom.findFirst({
-      where: {
-        name,
-      },
-    });
-    if (existingChatroom) {
-      throw new BadRequestException({ name: 'Chatroom already exists' });
+import {
+    Args,
+    Context,
+    Mutation,
+    Query,
+    Resolver,
+    Subscription,
+  } from '@nestjs/graphql';
+  import { ChatroomService } from './chatroom.service';
+  import { UserService } from 'src/user/user.service';
+  import { GraphQLErrorFilter } from 'src/filters/custom-exception.filter';
+  import { UseFilters, UseGuards } from '@nestjs/common';
+  import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+  import { Chatroom, Message } from './chatroom.types';
+  import { Request } from 'express';
+  import { PubSub } from 'graphql-subscriptions';
+  import { User } from 'src/user/user.type';
+  
+  import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
+  
+  @Resolver()
+  export class ChatroomResolver {
+    public pubSub: PubSub;
+    constructor(
+      private readonly chatroomService: ChatroomService,
+      private readonly userService: UserService,
+    ) {
+      this.pubSub = new PubSub();
     }
-    return this.prisma.chatroom.create({
-      data: {
-        name,
-        users: {
-          connect: {
-            id: sub,
-          },
-        },
-      },
-    });
-  }
+  
+    // @Subscription((returns) => Message, {
+    //   nullable: true,
+    //   resolve: (value) => value.newMessage,
+    // })
+    // newMessage(@Args('chatroomId') chatroomId: number) {
+    //   return this.pubSub.asyncIterator(`newMessage.${chatroomId}`);
+    // }
+    // @Subscription(() => User, {
+    //   nullable: true,
+    //   resolve: (value) => value.user,
+    //   filter: (payload, variables) => {
+    //     console.log('payload1', variables, payload.typingUserId);
+    //     return variables.userId !== payload.typingUserId;
+    //   },
+    // })
+    // userStartedTyping(
+    //   @Args('chatroomId') chatroomId: number,
+    //   @Args('userId') userId: number,
+    // ) {
+    //   return this.pubSub.asyncIterator(`userStartedTyping.${chatroomId}`);
+    // }
+  
+    // @Subscription(() => User, {
+    //   nullable: true,
+    //   resolve: (value) => value.user,
+    //   filter: (payload, variables) => {
+    //     return variables.userId !== payload.typingUserId;
+    //   },
+    // })
+    // userStoppedTyping(
+    //   @Args('chatroomId') chatroomId: number,
+    //   @Args('userId') userId: number,
+    // ) {
+    //   return this.pubSub.asyncIterator(`userStoppedTyping.${chatroomId}`);
+    // }
+  
 
-  async addUsersToChatroom(chatroomId: number, userIds: number[]) {
-    const existingChatroom = await this.prisma.chatroom.findUnique({
-      where: {
-        id: chatroomId,
-      },
-    });
-    if (!existingChatroom) {
-      throw new BadRequestException({ chatroomId: 'Chatroom does not exist' });
+
+
+
+    // @UseFilters(GraphQLErrorFilter)
+    // @UseGuards(GraphqlAuthGuard)
+    // @Mutation((returns) => User)
+    // async userStartedTypingMutation(
+    //   @Args('chatroomId') chatroomId: number,
+    //   @Context() context: { req: Request },
+    // ) {
+    //   const user = await this.userService.getUser(context.req.user.sub);
+    //   await this.pubSub.publish(`userStartedTyping.${chatroomId}`, {
+    //     user,
+    //     typingUserId: user.id,
+    //   });
+    //   return user;
+    // }
+    // @UseFilters(GraphQLErrorFilter)
+    // @UseGuards(GraphqlAuthGuard)
+    // @Mutation(() => User, {})
+    // async userStoppedTypingMutation(
+    //   @Args('chatroomId') chatroomId: number,
+    //   @Context() context: { req: Request },
+    // ) {
+    //   const user = await this.userService.getUser(context.req.user.sub);
+  
+    //   await this.pubSub.publish(`userStoppedTyping.${chatroomId}`, {
+    //     user,
+    //     typingUserId: user.id,
+    //   });
+  
+    //   return user;
+    // }
+  
+    // @UseGuards(GraphqlAuthGuard)
+    // @Mutation(() => Message)
+    // async sendMessage(
+    //   @Args('chatroomId') chatroomId: number,
+    //   @Args('content') content: string,
+    //   @Context() context: { req: Request },
+    //   @Args('image', { type: () => GraphQLUpload, nullable: true })
+    //   image?: GraphQLUpload,
+    // ) {
+    //   let imagePath = null;
+    //   if (image) imagePath = await this.chatroomService.saveImage(image);
+    //   const newMessage = await this.chatroomService.sendMessage(
+    //     chatroomId,
+    //     content,
+    //     context.req.user.sub,
+    //     imagePath,
+    //   );
+    //   await this.pubSub
+    //     .publish(`newMessage.${chatroomId}`, { newMessage })
+    //     .then((res) => {
+    //       console.log('published', res);
+    //     })
+    //     .catch((err) => {
+    //       console.log('err', err);
+    //     });
+  
+    //   return newMessage;
+    // }
+  
+
+
+
+
+
+
+    @UseFilters(GraphQLErrorFilter)
+    @UseGuards(GraphqlAuthGuard)
+    @Mutation(() => Chatroom)
+    async createChatroom(
+      @Args('name') name: string,
+      @Context() context: { req: Request },
+    ) {
+      return this.chatroomService.createChatroom(name, context.req.user.sub);
     }
-
-    return await this.prisma.chatroom.update({
-      where: {
-        id: chatroomId,
-      },
-      data: {
-        users: {
-          connect: userIds.map((id) => ({ id: id })),
-        },
-      },
-      include: {
-        users: true, // Eager loading users
-      },
-    });
-  }
-  async getChatroomsForUser(userId: number) {
-    return this.prisma.chatroom.findMany({
-      where: {
-        users: {
-          some: {
-            id: userId,
-          },
-        },
-      },
-      include: {
-        users: {
-          orderBy: {
-            createdAt: 'desc',
-          },
-        }, // Eager loading users
-
-        messages: {
-          take: 1,
-          orderBy: {
-            createdAt: 'desc',
-          },
-        },
-      },
-    });
-  }
-  async sendMessage(
-    chatroomId: number,
-    message: string,
-    userId: number,
-    imagePath: string,
-  ) {
-    return await this.prisma.message.create({
-      data: {
-        content: message,
-        imageUrl: imagePath,
-        chatroomId,
-        userId,
-      },
-      include: {
-        chatroom: {
-          include: {
-            users: true, // Eager loading users
-          },
-        }, // Eager loading Chatroom
-        user: true, // Eager loading User
-      },
-    });
-  }
-
-  async saveImage(image: {
-    createReadStream: () => any;
-    filename: string;
-    mimetype: string;
-  }) {
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!validImageTypes.includes(image.mimetype)) {
-      throw new BadRequestException({ image: 'Invalid image type' });
+  
+    @Mutation(() => Chatroom)
+    async addUsersToChatroom(
+      @Args('chatroomId') chatroomId: number,
+      @Args('userIds', { type: () => [Number] }) userIds: number[],
+    ) {
+      return this.chatroomService.addUsersToChatroom(chatroomId, userIds);
     }
-
-    const imageName = `${Date.now()}-${image.filename}`;
-    const imagePath = `${this.configService.get('IMAGE_PATH')}/${imageName}`;
-    const stream = image.createReadStream();
-    const outputPath = `public${imagePath}`;
-    const writeStream = createWriteStream(outputPath);
-    stream.pipe(writeStream);
-
-    await new Promise((resolve, reject) => {
-      stream.on('end', resolve);
-      stream.on('error', reject);
-    });
-
-    return imagePath;
+  
+    @Query(() => [Chatroom])
+    async getChatroomsForUser(@Args('userId') userId: number) {
+      return this.chatroomService.getChatroomsForUser(userId);
+    }
+  
+    @Query(() => [Message])
+    async getMessagesForChatroom(@Args('chatroomId') chatroomId: number) {
+      return this.chatroomService.getMessagesForChatroom(chatroomId);
+    }
+    @Mutation(() => String)
+    async deleteChatroom(@Args('chatroomId') chatroomId: number) {
+      await this.chatroomService.deleteChatroom(chatroomId);
+      return 'Chatroom deleted successfully';
+    }
   }
-  async getMessagesForChatroom(chatroomId: number) {
-    return await this.prisma.message.findMany({
-      where: {
-        chatroomId: chatroomId,
-      },
-      include: {
-        chatroom: {
-          include: {
-            users: {
-              orderBy: {
-                createdAt: 'asc',
-              },
-            }, // Eager loading users
-          },
-        }, // Eager loading Chatroom
-        user: true, // Eager loading User
-      },
-    });
-  }
-
-  async deleteChatroom(chatroomId: number) {
-    return this.prisma.chatroom.delete({
-      where: {
-        id: chatroomId,
-      },
-    });
-  }
-}

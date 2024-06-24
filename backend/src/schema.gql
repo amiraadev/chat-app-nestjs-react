@@ -25,11 +25,37 @@ type LoginResponse {
   user: User!
 }
 
+type Chatroom {
+  id: ID
+  name: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  users: [User!]
+  messages: [Message!]
+}
+
+type Message {
+  id: ID
+  imageUrl: String
+  content: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  chatroom: Chatroom
+  user: User
+}
+
 type Query {
+  getChatroomsForUser(userId: Float!): [Chatroom!]!
+  getMessagesForChatroom(chatroomId: Float!): [Message!]!
   hello: String!
+  searchUsers(fullname: String!): [User!]!
+  getUsersOfChatroom(chatroomId: Float!): [User!]!
 }
 
 type Mutation {
+  createChatroom(name: String!): Chatroom!
+  addUsersToChatroom(chatroomId: Float!, userIds: [Float!]!): Chatroom!
+  deleteChatroom(chatroomId: Float!): String!
   register(registerInput: RegisterDto!): RegisterResponse!
   login(loginInput: LoginDto!): LoginResponse!
   logout: String!

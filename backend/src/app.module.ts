@@ -13,6 +13,9 @@ import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { TokenService } from './token/token.service';
 import { ChatroomService } from './chatroom/chatroom.service';
 import { ChatroomResolver } from './chatroom/chatroom.resolver';
+import { PrismaService } from './prisma.service';
+import { UserService } from './user/user.service';
+import { JwtService } from '@nestjs/jwt';
 
 const pubsub = new RedisPubSub({
   connection: {
@@ -75,6 +78,6 @@ const pubsub = new RedisPubSub({
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, TokenService, ChatroomService, ChatroomResolver],
+  providers: [AppService, TokenService, ChatroomService, ChatroomResolver,PrismaService,UserService,JwtService],
 })
 export class AppModule {}
