@@ -53,6 +53,9 @@ type Query {
 }
 
 type Mutation {
+  userStartedTypingMutation(chatroomId: Float!): User!
+  userStoppedTypingMutation(chatroomId: Float!): User!
+  sendMessage(chatroomId: Float!, content: String!, image: Upload): Message!
   createChatroom(name: String!): Chatroom!
   addUsersToChatroom(chatroomId: Float!, userIds: [Float!]!): Chatroom!
   deleteChatroom(chatroomId: Float!): String!
@@ -62,6 +65,9 @@ type Mutation {
   async: String!
   updateProfile(fullname: String!, file: Upload): User!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input RegisterDto {
   fullname: String!
@@ -75,5 +81,8 @@ input LoginDto {
   email: String!
 }
 
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
+type Subscription {
+  newMessage(chatroomId: Float!): Message
+  userStartedTyping(chatroomId: Float!, userId: Float!): User
+  userStoppedTyping(chatroomId: Float!, userId: Float!): User
+}
