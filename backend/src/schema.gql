@@ -64,6 +64,8 @@ type Mutation {
   logout: String!
   async: String!
   updateProfile(fullname: String!, file: Upload): User!
+  enterChatroom(chatroomId: Float!): Boolean!
+  leaveChatroom(chatroomId: Float!): Boolean!
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -85,4 +87,5 @@ type Subscription {
   newMessage(chatroomId: Float!): Message
   userStartedTyping(chatroomId: Float!, userId: Float!): User
   userStoppedTyping(chatroomId: Float!, userId: Float!): User
+  liveUsersInChatroom(chatroomId: Float!): [User!]
 }

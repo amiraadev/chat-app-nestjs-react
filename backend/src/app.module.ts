@@ -16,6 +16,7 @@ import { ChatroomResolver } from './chatroom/chatroom.resolver';
 import { PrismaService } from './prisma.service';
 import { UserService } from './user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { LiveChatroomModule } from './live-chatroom/live-chatroom.module';
 
 const pubsub = new RedisPubSub({
   connection: {
@@ -76,6 +77,7 @@ const pubsub = new RedisPubSub({
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    LiveChatroomModule,
   ],
   controllers: [AppController],
   providers: [AppService, TokenService, ChatroomService, ChatroomResolver,PrismaService,UserService,JwtService],

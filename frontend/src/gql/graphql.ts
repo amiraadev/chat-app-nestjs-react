@@ -60,7 +60,10 @@ export type Mutation = {
   login: LoginResponse;
   logout: Scalars['String']['output'];
   register: RegisterResponse;
+  sendMessage: Message;
   updateProfile: User;
+  userStartedTypingMutation: User;
+  userStoppedTypingMutation: User;
 };
 
 
@@ -90,9 +93,26 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationSendMessageArgs = {
+  chatroomId: Scalars['Float']['input'];
+  content: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['Upload']['input']>;
+};
+
+
 export type MutationUpdateProfileArgs = {
   file?: InputMaybe<Scalars['Upload']['input']>;
   fullname: Scalars['String']['input'];
+};
+
+
+export type MutationUserStartedTypingMutationArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+
+export type MutationUserStoppedTypingMutationArgs = {
+  chatroomId: Scalars['Float']['input'];
 };
 
 export type Query = {
@@ -134,6 +154,30 @@ export type RegisterDto = {
 export type RegisterResponse = {
   __typename?: 'RegisterResponse';
   user?: Maybe<User>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  newMessage?: Maybe<Message>;
+  userStartedTyping?: Maybe<User>;
+  userStoppedTyping?: Maybe<User>;
+};
+
+
+export type SubscriptionNewMessageArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+
+export type SubscriptionUserStartedTypingArgs = {
+  chatroomId: Scalars['Float']['input'];
+  userId: Scalars['Float']['input'];
+};
+
+
+export type SubscriptionUserStoppedTypingArgs = {
+  chatroomId: Scalars['Float']['input'];
+  userId: Scalars['Float']['input'];
 };
 
 export type User = {
@@ -293,7 +337,10 @@ export type Mutation = {
   login: LoginResponse;
   logout: Scalars['String']['output'];
   register: RegisterResponse;
+  sendMessage: Message;
   updateProfile: User;
+  userStartedTypingMutation: User;
+  userStoppedTypingMutation: User;
 };
 
 
@@ -323,9 +370,26 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationSendMessageArgs = {
+  chatroomId: Scalars['Float']['input'];
+  content: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['Upload']['input']>;
+};
+
+
 export type MutationUpdateProfileArgs = {
   file?: InputMaybe<Scalars['Upload']['input']>;
   fullname: Scalars['String']['input'];
+};
+
+
+export type MutationUserStartedTypingMutationArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+
+export type MutationUserStoppedTypingMutationArgs = {
+  chatroomId: Scalars['Float']['input'];
 };
 
 export type Query = {
@@ -367,6 +431,30 @@ export type RegisterDto = {
 export type RegisterResponse = {
   __typename?: 'RegisterResponse';
   user?: Maybe<User>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  newMessage?: Maybe<Message>;
+  userStartedTyping?: Maybe<User>;
+  userStoppedTyping?: Maybe<User>;
+};
+
+
+export type SubscriptionNewMessageArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+
+export type SubscriptionUserStartedTypingArgs = {
+  chatroomId: Scalars['Float']['input'];
+  userId: Scalars['Float']['input'];
+};
+
+
+export type SubscriptionUserStoppedTypingArgs = {
+  chatroomId: Scalars['Float']['input'];
+  userId: Scalars['Float']['input'];
 };
 
 export type User = {
