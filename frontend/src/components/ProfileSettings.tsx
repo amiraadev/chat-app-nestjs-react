@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useGeneralStore } from "../store/generalStore"
 import { useUserStore } from "../store/userStore"
 import { useForm } from "@mantine/form"
@@ -22,15 +22,28 @@ function ProfileSettings() {
   const toggleProfileSettingsModal = useGeneralStore(
     (state) => state.toggleProfileSettingsModal
   )
-  const profileImage = useUserStore((state) => state.avatarUrl)
   const updateProfileImage = useUserStore((state) => state.updateProfileImage)
+
+  const profileImage = useUserStore((state) => state.avatarUrl)
   const fullname = useUserStore((state) => state.fullname)
+
   const updateUsername = useUserStore((state) => state.updateUsername)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const imagePreview = imageFile ? URL.createObjectURL(imageFile) : null
 
   const fileInputRef = React.useRef<HTMLButtonElement>(null)
 
+
+
+  useEffect(() => {
+   console.log(fullname);
+   form.setValues({
+    fullname: fullname,
+    profileImage:profileImage,
+  })
+   
+  }, [fullname])
+  
   const form = useForm({
     initialValues: {
       fullname: fullname,
@@ -68,6 +81,7 @@ function ProfileSettings() {
       onClose={toggleProfileSettingsModal}
       title="Profile Settings"
     >
+      {fullname}
       <form onSubmit={form.onSubmit(() => handleSave())}>
         <Group
           pos="relative"
