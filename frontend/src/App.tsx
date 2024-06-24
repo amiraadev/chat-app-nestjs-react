@@ -6,8 +6,8 @@ import { Card, Text } from "@mantine/core";
 function App() {
 	return (
 		<>
-			<Card shadow='lg'>
-				<Text italic>eeeee</Text>
+			<Card shadow="lg">
+        {/* <Text >eeeee</Text> */}
 			</Card>
 		</>
 	);

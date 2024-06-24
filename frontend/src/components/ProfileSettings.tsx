@@ -81,7 +81,6 @@ function ProfileSettings() {
       onClose={toggleProfileSettingsModal}
       title="Profile Settings"
     >
-      {fullname}
       <form onSubmit={form.onSubmit(() => handleSave())}>
         <Group
           pos="relative"
