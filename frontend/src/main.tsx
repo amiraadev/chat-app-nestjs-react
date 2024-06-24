@@ -12,13 +12,23 @@ import "./index.css";
 import { client } from "./apolloClient";
 import Home from "./pages/Home.tsx";
 
-const router = createBrowserRouter([{ path: "/", element: <Home /> }]);
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <Home />,
+		children: [
+			{
+				path: "/chatrooms/:id",
+			},
+		],
+	},
+]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>
 			<MantineProvider>
-				<RouterProvider router={router}/>
-					<App />
+				<RouterProvider router={router} />
+				<App />
 			</MantineProvider>
 		</ApolloProvider>
 	</React.StrictMode>

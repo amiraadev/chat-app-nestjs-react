@@ -9,6 +9,7 @@ import ProfileSettings from "../components/ProfileSettings";
 import RoomList from "../components/RoomList";
 import { Flex } from "@mantine/core";
 import AddChatroom from "../components/AddChatroom";
+import JoinRoomOrChatwindow from "../components/JoinRoomOrChatwindow";
 MainLayout;
 const Home = () => {
 	return (
@@ -27,6 +28,7 @@ const Home = () => {
 						<AddChatroom />
 						<Flex direction={{ base: "column", sm: "row" }} w={"100vw"}>
 							<RoomList />
+							<JoinRoomOrChatwindow />
 						</Flex>
 					</>
 				</ProtectedRoutes>

@@ -75,7 +75,7 @@ export class ChatroomService {
       include: {
         users: {
           orderBy: {
-            createdAt: 'desc',
+            createdAt: 'asc',
           },
         }, // Eager loading users
 
