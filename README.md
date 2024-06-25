@@ -1,8 +1,8 @@
 # Chat App
-![Chat App Screenshot](./chatapp.png)
 ## Introduction
 
 This chat application offers robust features allowing users to create chat rooms and add other users to these rooms. This functionality is designed to facilitate organized and topic-specific conversations, making it ideal for both personal and professional use.
+![Chat App Screenshot](./chatapp.png)
 
 ## Key Features
 
