@@ -22,6 +22,7 @@ import {
 } from "@tabler/icons-react";
 import { useMutation } from "@apollo/client";
 import { LOGOUT_USER } from "../graphql/mutations/Logout";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => {
 	return {
@@ -87,7 +88,7 @@ function Sidebar() {
 		(state) => state.toggleProfileSettingsModal
 	);
 	const [active, setActive] = useState(0);
-
+	const navigate = useNavigate();
 	const links = mockdata.map((link, index) => (
 		<NavbarLink
 			{...link}
@@ -118,6 +119,7 @@ function Sidebar() {
 			avatarUrl: null,
 			email: "",
 		});
+		navigate("/");
 	};
 
 	return (

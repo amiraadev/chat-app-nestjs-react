@@ -18,11 +18,6 @@ const Home = () => {
 				<ProfileSettings />
 				<AuthOverlay />
 				<Sidebar />
-				{/* <AddChatroom />
-          <Flex direction={{ base: "column", md: "row" }}>
-            <RoomList />
-            <JoinRoomOrChatwindow />
-          </Flex> */}
 				<ProtectedRoutes>
 					<>
 						<AddChatroom />
@@ -32,7 +27,6 @@ const Home = () => {
 						</Flex>
 					</>
 				</ProtectedRoutes>
-				HOME PAGE
 			</>
 		</MainLayout>
 	);
